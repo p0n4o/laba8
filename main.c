@@ -32,21 +32,26 @@ void search(int* n, EMPLOYEE **emp){
     printf(ANSI_COLOR_WHITE "Название самого высокого набора минимальной цены:" ANSI_COLOR_GREEN "\t\"%s\"\n", emp[res]->name);
     printf(ANSI_COLOR_YELLOW "Цена:     %d\n", emp[res]->price);
     printf(ANSI_COLOR_WHITE "Вес:      %d\n", emp[res]->ftr.weight);
-    printf(ANSI_COLOR_YELLOW "Выоста:   %d\n", emp[res]->ftr.height);
+    printf(ANSI_COLOR_YELLOW "Высота:   %d\n", emp[res]->ftr.height);
     printf(ANSI_COLOR_WHITE "Ширина:   %d\n\n", emp[res]->ftr.width);
 }
 
 
 int main(){
-//    system("chcp 65001");
+//  system("chcp 65001");
     EMPLOYEE **employee[20];
 
     for (int i = 0; i < 20; i++) employee[i] = malloc(sizeof(EMPLOYEE));
 
     int n = create(employee);
-    output(employee, &n);
-    search(&n, employee);
-    return 0;
+    if (n == 0){
+        return 0;
+    }
+    else{
+        output(employee, &n);
+        search(&n, employee);
+        return 0;
+    }
 }
 
 

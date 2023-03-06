@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 #include "file.h"
 #define ANSI_COLOR_WHITE   "\e[1;37m"
 #define ANSI_COLOR_CYAN    "\e[1;36m"
-//#define DEBUG
+#define ANSI_COLOR_RED     "\x1b[31m"
+//#define DEBUG 1
 
 
 int create(EMPLOYEE **emp){
@@ -11,18 +13,24 @@ int create(EMPLOYEE **emp){
     int n;
 	printf("Число наборов:\n");
 	scanf("%d", &n);
-	for (int i = 0; i < n; i++) {
-		printf("Введите название набора:\n");
-		scanf("%s", &emp[i].name[100]);
-		printf("Введите цену набора:\n");
-		scanf("%d", &emp[i].price);
-		printf("Введите вес набора:\n");
-		scanf("%d", &emp[i]->ftr.weight);
-		printf("Введите высоту набора:\n");
-		scanf("%d", &emp[i]->ftr.height);
-		printf("Введите ширину набора:\n");
-		scanf("%d", &emp[i]->ftr.width);
-	}
+    if(isdigit(n)){
+        for (int i = 0; i < n; i++) {
+            printf("Введите название набора:\n");
+            scanf("%s", &emp[i]->name);
+            printf("Введите цену набора:\n");
+            scanf("%d", &emp[i]->price);
+            printf("Введите вес набора:\n");
+            scanf("%d", &emp[i]->ftr.weight);
+            printf("Введите высоту набора:\n");
+            scanf("%d", &emp[i]->ftr.height);
+            printf("Введите ширину набора:\n");
+            scanf("%d", &emp[i]->ftr.width);
+        }
+    }
+    else{
+        printf(ANSI_COLOR_RED "\nВведено некорректное число наборов!");
+        return 0;
+    }
 #else
     int n=18;
 
@@ -139,12 +147,12 @@ int create(EMPLOYEE **emp){
 }
 
 void output(EMPLOYEE **emp, int* n){
-    printf("Наборы:\n\n");
+    printf("\nНаборы:\n\n");
     for (int i = 0; i < *n; i++) {
         printf(ANSI_COLOR_WHITE  "Название набора:" ANSI_COLOR_CYAN "\t\"%s\"\n", emp[i]->name);
         printf(ANSI_COLOR_WHITE "Цена:     %d\n", emp[i]->price);
         printf("Вес:      %d\n", emp[i]->ftr.weight);
-        printf("Выоста:   %d\n", emp[i]->ftr.height);
+        printf("Высота:   %d\n", emp[i]->ftr.height);
         printf("Ширина:   %d\n\n", emp[i]->ftr.width);
     }
 }

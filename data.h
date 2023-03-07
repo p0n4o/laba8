@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include "file.h"
@@ -10,10 +11,22 @@
 
 int create(EMPLOYEE **emp){
 #if DEBUG
-    int n;
+    char k[20];
 	printf("Число наборов:\n");
-	scanf("%d", &n);
-    if(isdigit(n)){
+    fgets(k, 20, stdin);
+    if (k[0] == '0' && strlen(k)==2){
+        printf(ANSI_COLOR_RED "Число наборов должно быть больше нуля!\n");
+        return 0;
+    }
+    for (int i = 0; i != strlen(k)-1; i++) {
+        if ((int)k[i] >= 48 && (int)k[i] <= 57) {
+        }
+        else{
+            printf(ANSI_COLOR_RED "Введенно некорректное число наборов!\n");
+            return 0;
+        }
+    }
+    long n = strtol(k,NULL,10);
         for (int i = 0; i < n; i++) {
             printf("Введите название набора:\n");
             scanf("%s", &emp[i]->name);
@@ -26,11 +39,6 @@ int create(EMPLOYEE **emp){
             printf("Введите ширину набора:\n");
             scanf("%d", &emp[i]->ftr.width);
         }
-    }
-    else{
-        printf(ANSI_COLOR_RED "\nВведено некорректное число наборов!");
-        return 0;
-    }
 #else
     int n=18;
 

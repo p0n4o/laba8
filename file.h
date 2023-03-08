@@ -1,12 +1,12 @@
 typedef struct {
-    int weight;
-    int height;
-    int width;
+    long int weight;
+    long int height;
+    long int width;
 } FEATURES;
 
 typedef struct {
     FEATURES ftr;
-    int price;
+    long int price;
     char name[100];
 } EMPLOYEE;
 

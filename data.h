@@ -6,39 +6,86 @@
 #define ANSI_COLOR_WHITE   "\e[1;37m"
 #define ANSI_COLOR_CYAN    "\e[1;36m"
 #define ANSI_COLOR_RED     "\x1b[31m"
-//#define DEBUG 1
+#define ANSI_COLOR_YELLOW  "\e[0;33m"
+#define DEBUG 1
 
+typedef enum { false, true } bool; // объявляем новый тип "bool" для более удобной реализации функции
+
+bool is_int(char* stroke) {
+
+    for (int i = 0; i != strlen(stroke)-1; i++) {
+        if ((int)stroke[i] >= 48 && (int)stroke[i] <= 57) {
+        }
+        else{
+            return false;
+        }
+    }
+    return true;
+}
+
+long int make_int(bool test, char* stroke){
+    long n;
+
+    if (test == true){
+        n = strtol(stroke, NULL, 10);
+        return n;
+    }
+
+    else{
+        printf(ANSI_COLOR_RED "Введенно некорректное значение аргумента!\n");
+        return 0;
+    }
+}
 
 int create(EMPLOYEE **emp){
+
 #if DEBUG
     char k[20];
+    long n = 0;
+
 	printf("Число наборов:\n");
     fgets(k, 20, stdin);
+
     if (k[0] == '0' && strlen(k)==2){
         printf(ANSI_COLOR_RED "Число наборов должно быть больше нуля!\n");
         return 0;
     }
-    for (int i = 0; i != strlen(k)-1; i++) {
-        if ((int)k[i] >= 48 && (int)k[i] <= 57) {
+    n = make_int(is_int(k), k);
+
+    for (int i = 0; i < n; i++) {
+        printf("Введите название набора:\n");
+        fgets(emp[i]->name, 100, stdin);
+        strtok(emp[i]->name, "\n");
+        printf("Введите цену набора:\n");
+        fgets(k, 20, stdin);
+        emp[i]->price = make_int(is_int(k), k);
+
+        if (emp[i]->price == 0){
+            return 0;
         }
-        else{
-            printf(ANSI_COLOR_RED "Введенно некорректное число наборов!\n");
+        printf("Введите вес набора:\n");
+        fgets(k, 20, stdin);
+        emp[i]->ftr.weight = make_int(is_int(k), k);
+
+        if (emp[i]->ftr.weight == 0){
+            return 0;
+        }
+        printf("Введите высоту набора:\n");
+        fgets(k, 20, stdin);
+        emp[i]->ftr.height = make_int(is_int(k), k);
+
+        if (emp[i]->ftr.height == 0){
+            return 0;
+        }
+        printf("Введите ширину набора:\n");
+        fgets(k, 20, stdin);
+        emp[i]->ftr.width = make_int(is_int(k), k);
+
+        if (emp[i]->ftr.width == 0){
             return 0;
         }
     }
-    long n = strtol(k,NULL,10);
-        for (int i = 0; i < n; i++) {
-            printf("Введите название набора:\n");
-            scanf("%s", &emp[i]->name);
-            printf("Введите цену набора:\n");
-            scanf("%d", &emp[i]->price);
-            printf("Введите вес набора:\n");
-            scanf("%d", &emp[i]->ftr.weight);
-            printf("Введите высоту набора:\n");
-            scanf("%d", &emp[i]->ftr.height);
-            printf("Введите ширину набора:\n");
-            scanf("%d", &emp[i]->ftr.width);
-        }
+
 #else
     int n=18;
 
@@ -151,17 +198,20 @@ int create(EMPLOYEE **emp){
     emp[17]->ftr.width = 38;
 
 #endif
+
     return n;
 }
 
 void output(EMPLOYEE **emp, int* n){
-    printf("\nНаборы:\n\n");
+
+    printf(ANSI_COLOR_YELLOW "\nНаборы:\n\n");
+
     for (int i = 0; i < *n; i++) {
         printf(ANSI_COLOR_WHITE  "Название набора:" ANSI_COLOR_CYAN "\t\"%s\"\n", emp[i]->name);
-        printf(ANSI_COLOR_WHITE "Цена:     %d\n", emp[i]->price);
-        printf("Вес:      %d\n", emp[i]->ftr.weight);
-        printf("Высота:   %d\n", emp[i]->ftr.height);
-        printf("Ширина:   %d\n\n", emp[i]->ftr.width);
+        printf(ANSI_COLOR_WHITE "Цена:     %li\n", emp[i]->price);
+        printf("Вес:      %li\n", emp[i]->ftr.weight);
+        printf("Высота:   %li\n", emp[i]->ftr.height);
+        printf("Ширина:   %li\n\n", emp[i]->ftr.width);
     }
 }
 

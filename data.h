@@ -28,11 +28,14 @@ long int make_int(bool test, char* stroke){
 
     if (test == true){
         n = strtol(stroke, NULL, 10);
+        if (n==0){
+            printf(ANSI_COLOR_RED "ERROR: Этот параметр не может быть задан нулем!\n");
+        }
         return n;
     }
 
     else{
-        printf(ANSI_COLOR_RED "Введенно некорректное значение аргумента!\n");
+        printf(ANSI_COLOR_RED "ERROR: Введенно некорректное значение аргумента!\n");
         return 0;
     }
 }
@@ -47,7 +50,7 @@ int create(EMPLOYEE **emp){
     fgets(k, 20, stdin);
 
     if (k[0] == '0' && strlen(k)==2){
-        printf(ANSI_COLOR_RED "Число наборов должно быть больше нуля!\n");
+        printf(ANSI_COLOR_RED "ERROR: Число наборов должно быть больше нуля!\n");
         return 0;
     }
     n = make_int(is_int(k), k);

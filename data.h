@@ -24,6 +24,7 @@ bool is_int(char* stroke) {
 }
 
 long int make_int(bool test, char* stroke){
+
     long n;
 
     if (test == true){

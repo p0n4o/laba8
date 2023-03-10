@@ -2,16 +2,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "file.h"
+#include "file.h" // Импортируем "file.h"
 #define ANSI_COLOR_WHITE   "\e[1;37m"
 #define ANSI_COLOR_CYAN    "\e[1;36m"
 #define ANSI_COLOR_RED     "\x1b[31m"
 #define ANSI_COLOR_YELLOW  "\e[0;33m"
-#define DEBUG 1
+//#define DEBUG 1 // Используется для изменения способа ввода массива структур
+// (если закомментирована, то используется заранее заполненный массив
 
 typedef enum { false, true } bool; // объявляем новый тип "bool" для более удобной реализации функции
 
-bool is_int(char* stroke) {
+bool is_int(char* stroke) { // вспомогательная функция, которая проверяет, является ли строка целым числом
 
     for (int i = 0; i != strlen(stroke)-1; i++) {
         if ((int)stroke[i] >= 48 && (int)stroke[i] <= 57) {
@@ -23,7 +24,7 @@ bool is_int(char* stroke) {
     return true;
 }
 
-long int make_int(bool test, char* stroke){
+long int make_int(bool test, char* stroke){ // вспомогательная функция, которая преобразует строку в целоем число, если это возможно
 
     long n;
 
@@ -41,63 +42,69 @@ long int make_int(bool test, char* stroke){
     }
 }
 
-int create(EMPLOYEE **emp){
+int create(EMPLOYEE **emp){ // функция создания массива структур пользователем, если значение DEBUG установлено
 
 #if DEBUG
-    char k[20];
+    char k[20]; // объявляение переменных
     long n = 0;
 
 	printf("Число наборов:\n");
-    fgets(k, 20, stdin);
+    fgets(k, 20, stdin); // ввод пользователем количества наборов
 
-    if (k[0] == '0' && strlen(k)==2){
+    if (k[0] == '0' && strlen(k)==2){ // проверка на то, чтотпользователь ввел "0"
         printf(ANSI_COLOR_RED "ERROR: Число наборов должно быть больше нуля!\n");
         return 0;
     }
-    n = make_int(is_int(k), k);
+    n = make_int(is_int(k), k); // проверка на то, что введенная пользователем строка - число
+    // и присвоение его значения  переменной n
 
     for (int i = 0; i < n; i++) {
         printf("Введите название набора:\n");
-        fgets(emp[i]->name, 100, stdin);
-        strtok(emp[i]->name, "\n");
+        fgets(emp[i]->name, 100, stdin);        //fgets считывает строку вместе с \n
+        strtok(emp[i]->name, "\n");    //Применяем функцию strtok, чтобы избавиться от перехода на новую строку
         printf("Введите цену набора:\n");
         fgets(k, 20, stdin);
-        emp[i]->price = make_int(is_int(k), k);
+        emp[i]->price = make_int(is_int(k), k); // проверка на то, что введенная пользователем строка - число
+        // и помещение его значения в массив "price"
 
-        if (emp[i]->price == 0){
+        if (emp[i]->price == 0){ // проверка на то, что пользователь ввел 0 или введенная строка не является целым числом
             return 0;
         }
         printf("Введите вес набора:\n");
         fgets(k, 20, stdin);
-        emp[i]->ftr.weight = make_int(is_int(k), k);
+        emp[i]->ftr.weight = make_int(is_int(k), k); // проверка на то, что введенная пользователем строка - число
+        // и помещение его значения в массив "weight"
 
-        if (emp[i]->ftr.weight == 0){
+        if (emp[i]->ftr.weight == 0){ // проверка на то, что пользователь ввел 0 или введенная строка не является целым числом
             return 0;
         }
         printf("Введите высоту набора:\n");
         fgets(k, 20, stdin);
-        emp[i]->ftr.height = make_int(is_int(k), k);
+        emp[i]->ftr.height = make_int(is_int(k), k); // проверка на то, что введенная пользователем строка - число
+        // и помещение его значения в массив "height"
 
-        if (emp[i]->ftr.height == 0){
+        if (emp[i]->ftr.height == 0){ // проверка на то, что пользователь ввел 0 или введенная строка не является целым числом
             return 0;
         }
         printf("Введите ширину набора:\n");
         fgets(k, 20, stdin);
-        emp[i]->ftr.width = make_int(is_int(k), k);
+        emp[i]->ftr.width = make_int(is_int(k), k); // проверка на то, что введенная пользователем строка - число
+        // и помещение его значения в массив "width"
 
-        if (emp[i]->ftr.width == 0){
+        if (emp[i]->ftr.width == 0){ // проверка на то, что пользователь ввел 0 или введенная строка не является целым числом
             return 0;
         }
     }
 
-#else
-    int n=18;
+#else // Если DEBUG не установлен, то используется заранее заполненный массив структур
+    int n=18; // В этом массиве 18 элементов
 
-    strcpy(emp[0]->name, "Эйфелева башня");
-    emp[0]->price = 99999;
-    emp[0]->ftr.weight = 10001;
-    emp[0]->ftr.height = 48;
-    emp[0]->ftr.width = 59;
+    // Заполняем информацию о каждом элементе массива
+    strcpy(emp[0]->name, "Эйфелева башня"); // Помещаем строку в массив "name"
+    emp[0]->price = 99999; // Помещаем целое число в массив "price"
+    emp[0]->ftr.weight = 10001; // Помещаем целое число в массив "weight"
+    emp[0]->ftr.height = 48; // Помещаем целое число в массив "height"
+    emp[0]->ftr.width = 59; // Помещаем целое число в массив "width"
 
     strcpy(emp[1]->name, "Титаник");
     emp[1]->price = 99999;
@@ -206,7 +213,7 @@ int create(EMPLOYEE **emp){
     return n;
 }
 
-void output(EMPLOYEE **emp, int* n){
+void output(EMPLOYEE **emp, int* n){ // Функция вывода каждого набора с его параметрами, согласно структуре
 
     printf(ANSI_COLOR_YELLOW "\nНаборы:\n\n");
 

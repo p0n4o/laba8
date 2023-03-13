@@ -7,8 +7,8 @@
 #define ANSI_COLOR_CYAN    "\e[1;36m"
 #define ANSI_COLOR_RED     "\x1b[31m"
 #define ANSI_COLOR_YELLOW  "\e[0;33m"
-//#define DEBUG 1 // Используется для изменения способа ввода массива структур
-// (если закомментирована, то используется заранее заполненный массив)
+#define DEBUG  // Используется для изменения способа ввода массива структур
+// (если закомментированна, то используется заранее заполненный массив)
 
 typedef enum { false, true } bool; // объявляем новый тип "bool" для более удобной реализации функции
 
@@ -29,6 +29,10 @@ long int make_int(bool test, char* stroke){ // вспомогательная ф
     long n;
 
     if (test == true){
+        if (stroke[0] == '0'){
+            printf(ANSI_COLOR_RED "ERROR: Введенно некорректное значение аргумента!\n");
+            return 0;
+        }
         n = strtol(stroke, NULL, 10);
         if (n==0){
             printf(ANSI_COLOR_RED "ERROR: Этот параметр не может быть задан нулем!\n");
@@ -44,7 +48,7 @@ long int make_int(bool test, char* stroke){ // вспомогательная ф
 
 int create(EMPLOYEE **emp){ // функция создания массива структур пользователем, если значение DEBUG установлено
 
-#if DEBUG
+#ifdef DEBUG
     char k[20]; // объявляение переменных
     long n = 0;
 
